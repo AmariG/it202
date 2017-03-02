@@ -6,64 +6,71 @@
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
   
   <style>
-      background-color:red
-    
+  body {
+      background-color:#66ffff;
+      color:#0000cc;
+  }
+  
   </style>
 </head>
 <body>
+  
+  <div id="form">
+        <button type="button" id="btnSearch" >Track Bus</button>
+    </div>
 
  
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
       <script>
       
-      function busRoutes()
-      {
+          function busRoutes()
+        {
       
-        $(function() {
+          $(function() {
+            
           
+            var apiPassThruUrl = "https://polar-garden-75406.herokuapp.com/apiPassThru.php";
+            
+            var apiEndpoint = "http://www.ctabustracker.com/bustime/api/v2/getpredictions";
           
-          var apiPassThruUrl = "https://polar-garden-75406.herokuapp.com/apiPassThru.php";
-          
-          var apiEndpoint = "http://www.ctabustracker.com/bustime/api/v2/getpredictions";
-          
-          
-          $.ajax({
-              url: apiPassThruUrl,
-              dataType: "json",
-              method: 'GET',
-              data: {"apiEndpoint": apiEndpoint,
-                      "key" : "gLdXiWi7P8fFLmErKzvNZSLA2",
-                      "format":"json",
-                      "stpid":"8195,8417,12569,12527",
-                      "top":""
-              }
-            }).done (function (data) {
-              console.log(data);
-              $("body").append("<h1>Bus Routes</h1>");
-             
-              $.each(data["bustime-response"]["prd"], function(i,v) {
-                 
-                  
-                  $("body").append(
-                  "Bus Route:"+
-                  v.rt +
-                  "<br>" +
-                  "Direction:" +
-                  v.rtdir +
-                  "<br>" +
-                  "Time:" +
-                  v.tmstmp +
-                  "<br>" +
-                  "Predicted Time:" +
-                  v.prdctdn +
-                  "<br>"
-                  
-                  );
-              });
-
+              $.ajax({
+                url: apiPassThruUrl,
+                dataType: "json",
+                method: 'GET',
+                data: {"apiEndpoint": apiEndpoint,
+                        "key" : "gLdXiWi7P8fFLmErKzvNZSLA2",
+                        "format":"json",
+                        "stpid":"8195,8417,12569,12527",
+                        "top":""
+                }
+              }).done (function (data) {
+                console.log(data);
+                $("body").append("<h1>Bus Routes</h1>");
+               
+                $.each(data["bustime-response"]["prd"], function(i,v) {
+                   
+                    
+                   var html ="<div>"
+                    +"Bus Route:"
+                    +v.rt
+                    +"<br>"
+                    +"Direction:"
+                    +v.rtdir
+                    +"<br>"
+                    +"Time:"
+                    +v.tmstmp
+                    +"<br>"
+                    +"Predicted Time:"
+                    +v.prdctdn
+                    +"<br>"
+                    +"</div>";
+                    
+                     $("body").append(html);
+                  });
+  
+                });
             });
-        });
-      }
+          }
       
       busRoutes();
 </script>
