@@ -43,6 +43,9 @@
                         "stpid":"8195,8417,12569,12527",
                         "top":""
                 }
+                
+                
+                
               }).done (function (data) {
                 console.log(data);
                 $("body").append("<h1>Bus Routes</h1>");
@@ -51,16 +54,18 @@
                    
                     
                    var html ="<div>"
-                    +"Bus Route:"
+                    +"<h3>"
+                    +"Bus Route: "
+                    +"</h3>"
                     +v.rt
                     +"<br>"
-                    +"Direction:"
+                    +"Direction: "
                     +v.rtdir
                     +"<br>"
-                    +"Time:"
+                    +"Time: "
                     +v.tmstmp
                     +"<br>"
-                    +"Predicted Time:"
+                    +"Predicted Time: "
                     +v.prdctdn
                     +"<br>"
                     +"</div>";
