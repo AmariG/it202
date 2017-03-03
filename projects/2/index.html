@@ -2,13 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>jQuery.parseXML demo</title>
+  <title>Bus Tracker vol. 1</title>
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
   
   <style>
   body {
-      background-color:#66ffff;
-      color:#0000cc;
+      background-color:#6d0175;
+      color:#af0516;
+      font-size:17px;
+  }
+  h3 {
+    color:#b400c1;
+  }
+  h1 {
+    color:#010211;
   }
   
   </style>
@@ -16,7 +23,7 @@
 <body>
   
   <div id="form">
-        <button type="button" id="btnSearch" >Track Bus</button>
+        <button type="button" id="btnSearch">Track Bus</button>
     </div>
 
  
@@ -48,7 +55,7 @@
                 
               }).done (function (data) {
                 console.log(data);
-                $("body").append("<h1>Bus Routes</h1>");
+                $("body").append("<h1>Bus Times</h1>");
                
                 $.each(data["bustime-response"]["prd"], function(i,v) {
                    
