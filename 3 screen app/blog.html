@@ -22,7 +22,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="A portfolio template that uses Material Design Lite.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <title>MDL-Static Website</title>
+    <title>News</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.grey-pink.min.css" />
     <link rel="stylesheet" href="styles.css" />
@@ -41,7 +41,7 @@
             <div class="mdl-layout__header-row portfolio-navigation-row mdl-layout--large-screen-only">
                 <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
                     <a class="mdl-navigation__link" href="index.html">Bus Tracker</a>
-                    <a class="mdl-navigation__link  is-active" href="blog.html">Blog</a>
+                    <a class="mdl-navigation__link  is-active" href="blog.html">News search</a>
                     <a class="mdl-navigation__link" href="about.html">About</a>
                 </nav>
             </div>
@@ -49,12 +49,76 @@
         <div class="mdl-layout__drawer mdl-layout--small-screen-only">
             <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
                 <a class="mdl-navigation__link is-active" href="index.html">Bus Tracker</a>
-                <a class="mdl-navigation__link" href="blog.html">Blog</a>
+                <a class="mdl-navigation__link" href="blog.html">News</a>
                 <a class="mdl-navigation__link" href="about.html">About</a>
             </nav>
         </div>
     </div>
     <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-</body>
+    
+    
+    <!-- a div to store the results -->
+    <div id="results">
+        
+        
+    </div>
+    
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+       
+       var nytData;
+       
+        var params = '?' + $.param({
+                      'api-key': "08b75bb3056f475882f282ef42c771b7"
+                      
+                    });
+       
+        $(function () {   
+            var baseURL = 'https://api.nytimes.com/svc/search/v2/articlesearch.json'
+            
+             var url = baseURL + params;   
+                
+            
+                
+                $("#results").html("");
+                
+                 var searchTerm = $("#txtQuery").val();
+                 var searchUrl = url + "&sort=newest&q=" + searchTerm
+                 
+                 console.log(searchUrl)
+                
+                $.getJSON(searchUrl)      
+                    .done (function (data) {
+                        
+                       console.log(data);
+                        nytData = data;
+                       
+                            $.each (data.response.docs,  function (index, value) {
+                              $("#results").append(
+                              "<h2>"
+                              + (value.headline.print_headline || value.headline.main || "No Headline Found" ) 
+                              +"</h2>"
+                              +"<p>"
+                              +"<br>"
+                              + value.pub_date
+                              +"<br>"
+                              + value.byline || value.original
+                              +"<br>"
+                              + value.lead_paragraph
+                              +"<br>"
+                              +value.web_url
+                              + "</p>");
+     
+                            })
+                            
+                    })
+                    .fail(function(err){
+                                $("#results").append(err)
+                            });
+            });
+
+           
+    </script>
+</body>
 </html>
