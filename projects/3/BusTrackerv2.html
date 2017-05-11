@@ -30,7 +30,7 @@
     <main class="mdl-layout__content">
       <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
         <div class="page-content">
-          <!-- Your content goes here -->
+          <select id="body"></select>
         </div>
       </section>
       <section class="mdl-layout__tab-panel" id="fixed-tab-2">
@@ -40,15 +40,8 @@
       </section>
       <section class="mdl-layout__tab-panel" id="fixed-tab-3">
         <div class="page-content">
-          <!-- Your content goes here -->
-        </div>
-      </section>
-    </main>
-  </div>
-  <div id="form">
-    <button type="button" id="btnSearch">Track Bus</button>
-  </div>
-
+          <select id="route"></select>
+          <select id="directions"></select> 
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script>
@@ -128,25 +121,56 @@
       console.log(data);
       $("body").append("<h1>Bus Times</h1>");
 
-      $.each(data["bustime-response"]["routes"], function(i, v)
-      {
-             $("body").append("Route #" + v.rt + "," + v.rtnm + "<br>");
+      $.each(data["bustime-response"]["routes"], function(i, v) {
+        // $("body").append("Route #" + v.rt + "," + v.rtnm + "<br>");
 
 
         var option = $("<option>");
         option.attr("value", v.rt);
         option.text(v.rt + "-" + v.rtnm);
         $("#route").append(option);
-      })
+      });
 
     });
-
-
-    busRoutes();
-  </script>;
-
-  <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
-
+  
+       $("#routes").on("change", function() {
+              
+                $("#directions option").remove();
+                
+        
+              
+                var apiEndpoint = "http://ctabustracker.com/bustime/api/v2/getdirections";
+                
+                
+                $.ajax({
+                    url: apiPassThruUrl,
+                    dataType: "json",
+                    method: 'GET',
+                    data: {"apiEndpoint": apiEndpoint,
+                            "key" : "gLdXiWi7P8fFLmErKzvNZSLA2",
+                            "format":"json",
+                            "rt": $("#routes").val()
+                    }
+                  }).done (function (data) {
+                    console.log(data);
+                    // load options into a select controle
+                  $.each(data["bustime-response"]["directions"], function(i,v) {
+                        var option = $("<option>");   // creates an option element
+                        option.attr("value", v.dir);   // set value
+                        option.text(v.dir);  // set text
+                        $("#directions").append(option);   // add option to select control
+      
+                  }); 
+                   
+              });              
+              
+            })
+          
+  </script>
+  </div>
+  </section>
+  </main>
+  </div>
 </body>
 
 </html>
