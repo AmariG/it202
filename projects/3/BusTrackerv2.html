@@ -42,7 +42,9 @@
         <div class="page-content">
           <select id="route"></select>
           <select id="directions"></select>
-
+          <select id="stop"></select>
+          
+          
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
           <script>
             function busRoutes() {
@@ -133,61 +135,70 @@
 
             });
 
-           $("#routes").on("change", function(){
-              
-        $("#directions option").remove();
-              $("#directions").append("<option>Select Direction</option>");
-      var apiEndpoint = "http://ctabustracker.com/bustime/api/v2/getdirections";
-                
-                
-                $.ajax({
-                    url: apiPassThruUrl,
-                    dataType: "json",
-                    method: 'GET',
-                    data: {"apiEndpoint": apiEndpoint,
-                            "key" : "2iarWD3P3ws4fid45HWRHY4TR",
-                            "format":"json",
-                            "rt": $("#routes").val()
-                    }
-                  }).done (function (data) {
-                    console.log(data);
-                   $.each(data["bustime-response"]["directions"], function(i,v) {
-                        var option = $("<option>");
-                        option.attr("value", v.dir);
-                        option.text(v.dir);
-                        $("#directions").append(option);
-                      });
-  
+            $("#route").on("change", function() {
+              console.log("in change handler");
+              $("#directions option").remove();
+
+
+
+              var apiEndpoint = "http://ctabustracker.com/bustime/api/v2/getdirections";
+
+
+              $.ajax({
+                url: apiPassThruUrl,
+                dataType: "json",
+                method: 'GET',
+                data: {
+                  "apiEndpoint": apiEndpoint,
+                  "key": "gLdXiWi7P8fFLmErKzvNZSLA2",
+                  "format": "json",
+                  "rt": $("#route").val()
+                }
+              }).done(function(data) {
+                console.log(data);
+                // load options into a select controle
+                $.each(data["bustime-response"]["directions"], function(i, v) {
+                  var option = $("<option>"); // creates an option element
+                  option.attr("value", v.dir); // set value
+                  option.text(v.dir); // set text
+                  $("#directions").append(option); // add option to select control
+
+                });
+
               });
-            });
-            $("#directions").on("change", function(){
-              $("#stops option").remove();
-              $("#stops").append("<option>Select Stop</option>");
-              $("#routes").on("change", function(){
-        $("#stops option").remove();
-        $("#stops").append("<option>Select Stop</option>");
-              });
-      var apiEndpoint = "http://www.ctabustracker.com/bustime/api/v2/getstops";
-                
-                
-                $.ajax({
-                    url: apiPassThruUrl,
-                    dataType: "json",
-                    method: 'GET',
-                    data: {"apiEndpoint": apiEndpoint,
-                            "key" : "2iarWD3P3ws4fid45HWRHY4TR",
-                            "format":"json",
-                            "rt": $("#routes").val(),
-                            "dir": $("#directions").val()
-                    }
-                  }).done (function (data) {
-                    console.log(data);
-                   $.each(data["bustime-response"]["stops"], function(i,v) {
-                        var option = $("<option>");
-                        option.attr("value", v.stpid);
-                        option.text(v.stpid + " - " + v.stpnm);
-                        $("#stops").append(option);
-                      });
+
+            })
+            
+             $("#directions").on("change", function() {
+              console.log("in change handler");
+              $("#stop option").remove();
+
+
+
+              var apiEndpoint = "http://ctabustracker.com/bustime/api/v2/getstops";
+
+
+              $.ajax({
+                url: apiPassThruUrl,
+                dataType: "json",
+                method: 'GET',
+                data: {
+                  "apiEndpoint": apiEndpoint,
+                  "key": "gLdXiWi7P8fFLmErKzvNZSLA2",
+                  "format": "json",
+                  "rt": $("#route").val(),
+                  "dir": $("#directions").val(),
+                }
+              }).done(function(data) {
+                console.log(data);
+                // load options into a select controle
+                $.each(data["bustime-response"]["stops"], function(i, v) {
+                  var option = $("<option>"); // creates an option element
+                  option.attr("value", v.stpid,v.stpnm); // set value
+                  option.text(v.stpnm); // set text
+                  $("#stop").append(option); // add option to select control
+
+                });
 
               });
 
