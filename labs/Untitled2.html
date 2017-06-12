@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Canvas Text Example</title>
+  <style>
+    canvas {
+      border: #333 10px solid;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="myCanvas" width="550px" height="350px"></canvas>
+
+  <script>
+    var canvas = document.querySelector("#myCanvas");
+    var context = canvas.getContext("2d");
+
+
+    context.font = "90px Helvetica, Arial, sans-serif";
+    context.textAlign = "center";
+    context.direction = "rtl";
+    context.textBaseline = "ideographic";
+    context.fillStyle = "#A90CF7";
+    context.fillText("Amari", 200, 200);
+
+
+  var xPos = -500;
+
+    function drawName() {
+      mainContext.clearRect(0, 0, canvasWidth, canvasHeight);
+
+      mainContext.font = "90px Helvetica, Arial, sans-serif";
+      mainContext.textAlign = "center";
+      mainContext.direction = "rtl";
+      mainContext.textBaseline = "ideographic";
+      mainContext.fillStyle = "#A90CF7";
+      mainContext.fillText("Amari", xPos, 200);
+
+
+
+       xPos += 5;
+ 
+  if (xPos > 1000) {
+    xPos = -500;
+  }
+  
+  drawName();
+      requestAnimationFrame(drawName);
+    }
+  </script>
+
+</body>
+
+</html>
